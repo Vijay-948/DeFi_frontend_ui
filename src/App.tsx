@@ -1,6 +1,8 @@
 // import React from 'react';
 // import logo from './logo.svg';
+// import { Login } from "@mui/icons-material";
 import "./App.css";
+import LoginPage from "./Authentication/login";
 import Register from "./Authentication/signUp-page";
 
 function App() {
@@ -20,7 +22,9 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <Register />
+      {/* <Register /> */}
+      {/* <Login /> */}
+      <LoginPage/>
     </div>
   );
 }

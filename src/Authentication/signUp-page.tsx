@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -82,7 +84,7 @@ const Register = () => {
               <div className="relative w-full h-12 mb-8">
                 <Field
                   name="password"
-                  type="text"
+                  type="password"
                   placeholder="Password"
                   className="w-full h-full bg-gray-800 bg-opacity-75 border-2 border-white border-opacity-20 rounded-full pl-4 pr-10 text-white placeholder-gray-300"
                 />
@@ -92,11 +94,33 @@ const Register = () => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <button className="w-1/2 h-12 flex justify-center items-center mx-auto bg-whtie text-white-800 font-bold rounded-full hover:bg-blue-900 hover:text-white">sign Up</button>
+              <button
+                type="submit"
+                className="w-1/2 h-12 flex bg-red-900 justify-center items-center mx-auto bg-whtie text-white-800 font-bold rounded-full hover:bg-blue-900 hover:text-white"
+              >
+                sign Up
+              </button>
+              <div className="text-center mt-6">
+                <p>
+                  Already have an account?
+                  {/* <Link to="/login">Login</Link> */}
+                </p>
+              </div>
             </Form>
           )}
         </Formik>
       </div>
+      {loading && (
+        <div className="fixed bg-gray-700 bg-opacity-50 flex items-center justify-center z-50">
+          <RotatingLines
+            strokeColor="gray"
+            strokeWidth="6"
+            animationDuration="0.47"
+            width="96"
+          />
+        </div>
+
+      )}
     </div>
   );
 };
