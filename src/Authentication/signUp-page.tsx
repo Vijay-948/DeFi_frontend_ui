@@ -5,9 +5,11 @@ import { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   // const navigate = useNavigate();
 
   const initialvalues = {
@@ -27,6 +29,10 @@ const Register = () => {
       .min(8, "Password must be at least 8 characters long")
       .required("Password is required"),
   });
+
+  const passwordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
 
   const handleSubmit = () => {};
 
@@ -83,11 +89,22 @@ const Register = () => {
               </div>
               <div className="relative w-full h-12 mb-8">
                 <Field
-                  name="password"
+                  name={showPassword ? "text" : "password"}
                   type="password"
                   placeholder="Password"
                   className="w-full h-full bg-gray-800 bg-opacity-75 border-2 border-white border-opacity-20 rounded-full pl-4 pr-10 text-white placeholder-gray-300"
                 />
+                {showPassword ? (
+                  <VisibilityOff
+                    className="absolute right-4 top-3.5 cursor-pointer"
+                    onClick={passwordVisibility}
+                  />
+                ) : (
+                    <Visibility
+                      className="absolute right-4 top-3.5 cursor-pointer"
+                      onClick={passwordVisibility}
+                    />
+                )}
                 <ErrorMessage
                   name="password"
                   component="span"
