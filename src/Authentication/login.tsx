@@ -75,9 +75,15 @@ const LoginPage = () => {
 
   const handleSubmit = () => {};
 
-  const handleEmailSumbit = () => {};
+  const handleEmailSumbit = () => {
+    setOpenEamilDialog(false);
+    setOpenOtpDialog(true);
+  };
 
-  const handleOtpVerifySumbit = () => {};
+  const handleOtpVerifySumbit = () => {
+    setOpenOtpDialog(false);
+    setOpenPasswordDialog(true);
+  };
 
   const handleUpdatePassswordSubmit = () => {};
 
@@ -194,7 +200,7 @@ const LoginPage = () => {
                     <ErrorMessage
                       name="email"
                       component="span"
-                      className="text-red-400 text-bold mt-2"
+                      className="text-red-600 text-bold mt-2 font-semibold"
                     />
                     <DialogActions className="flex justify-between w-full mt-4">
                       <Button onClick={() => setOpenEamilDialog(false)}>
@@ -210,41 +216,58 @@ const LoginPage = () => {
         </div>
       </Dialog>
       <Dialog open={openOtpDialog} onClose={() => setOpenOtpDialog(false)}>
-        <DialogTitle>Enter OTP</DialogTitle>
+        {/* <DialogTitle>Enter OTP</DialogTitle> */}
+        <div>
+          <h4 className="text-2xl font-semibold text-center mt-10">
+            Enter Verification Code
+          </h4>
+          <p className="font-semibold p-4 text-center">
+            we've sent a code to your {localStorage.getItem("email")}. Please
+            enter the OTP correctly
+          </p>
+        </div>
         <DialogContent>
           <Formik
-            initialValues={{ otp: "" }}
-            validationSchema={Yup.object({
-              otp: Yup.string().required("OTP is required"),
-            })}
+            initialValues={OtpDialogValues}
+            validationSchema={validationOtpSchema}
             onSubmit={handleOtpVerifySumbit}
           >
             {() => (
               <Form>
-                <OtpInput
-                  value={otp}
-                  inputType="text"
-                  inputStyle={{
-                    width: "5.2vh",
-                    height: "6.2vh",
-                    margin: "5px",
-                    border: "solid gray 1px",
-                  }}
-                  onChange={setOtp}
-                  numInputs={6}
-                  renderSeparator={<span className="mx-1"></span>}
-                  renderInput={(props) => (
-                    <input
-                      {...props}
-                      className="border p-2 text-center w-10 h-12"
-                    />
-                  )}
-                />
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <OtpInput
+                    value={otp}
+                    inputType="text"
+                    inputStyle={{
+                      width: "5.2vh",
+                      height: "6.2vh",
+                      margin: "5px",
+                      border: "solid gray 1px",
+                      textAlign: "center",
+                    }}
+                    onChange={setOtp}
+                    numInputs={6}
+                    renderSeparator={<span className="mx-1"></span>}
+                    renderInput={(props) => (
+                      <input
+                        {...props}
+                        className="border p-2 text-center w-10 h-12"
+                      />
+                    )}
+                  />
+                </div>
+                {/* <div style={{ display: "flex", justifyContent: "center" }}>
+                  <ErrorMessage
+                    name="otp"
+                    component="span"
+                    className="text-red-600 text-bold mt-2 font-semibold"
+                  />
+                </div> */}
                 <DialogActions>
                   <Button onClick={() => setOpenOtpDialog(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit" color="primary">
+                  <Button type="submit" color="primary" onClick={() => setOpenPasswordDialog(true)}>
                     Submit
                   </Button>
                 </DialogActions>
@@ -274,7 +297,7 @@ const LoginPage = () => {
                 />
                 <ErrorMessage
                   name="newPassword"
-                  component="div"
+                  component="span"
                   className="text-red-600"
                 />
                 <Field
@@ -285,7 +308,7 @@ const LoginPage = () => {
                 />
                 <ErrorMessage
                   name="confirmPassword"
-                  component="div"
+                  component="span"
                   className="text-red-600"
                 />
                 <DialogActions>
