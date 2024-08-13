@@ -9,14 +9,17 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import OtpInput from "react-otp-input";
 
 const LoginPage = () => {
   const [loader, setLoader] = useState(false);
+  const [otp, setOtp] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [openEmailDialog, setOpenEamilDialog] = useState(false);
-  const [openOtpDailog, setOpenDialog] = useState(false);
+  const [openOtpDialog, setOpenOtpDialog] = useState(false);
   const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
 
   const initialValues = {
@@ -157,11 +160,22 @@ const LoginPage = () => {
         </Formik>
       </div>
       <Dialog open={openEmailDialog} onClose={() => setOpenEamilDialog(false)}>
-        <div className="bg-gray-900">
+        <div className="bg-white-900">
           <DialogTitle className="text-4xl text-center font-semibold mb-8">
             Enter Your Email
           </DialogTitle>
-          <DialogContent className="relative w-[420px] bg-opacity-75 border-2 border-white border-opacity-20 backdrop-blur-3xl shadow-lg text-white rounded-lg p-10 z-10">
+          <DialogContent className="relative w-[520px] bg-opacity-75 border-2 border-white border-opacity-0 backdrop-blur-3xl shadow-lg text-white rounded-lg p-10 z-10">
+            <DialogContentText
+              className="text-center font-semibold mb-12"
+              sx={{
+                fontFamily: "sans-serif",
+                fontSize: "17px",
+                marginBottom: "8px",
+              }}
+            >
+              Enter your email address, and we'll send you an OTP to verify your
+              email.
+            </DialogContentText>
             <Formik
               initialValues={emailDialogValues}
               validationSchema={validationEmailSchema}
@@ -194,6 +208,98 @@ const LoginPage = () => {
             </Formik>
           </DialogContent>
         </div>
+      </Dialog>
+      <Dialog open={openOtpDialog} onClose={() => setOpenOtpDialog(false)}>
+        <DialogTitle>Enter OTP</DialogTitle>
+        <DialogContent>
+          <Formik
+            initialValues={{ otp: "" }}
+            validationSchema={Yup.object({
+              otp: Yup.string().required("OTP is required"),
+            })}
+            onSubmit={handleOtpVerifySumbit}
+          >
+            {() => (
+              <Form>
+                <OtpInput
+                  value={otp}
+                  inputType="text"
+                  inputStyle={{
+                    width: "5.2vh",
+                    height: "6.2vh",
+                    margin: "5px",
+                    border: "solid gray 1px",
+                  }}
+                  onChange={setOtp}
+                  numInputs={6}
+                  renderSeparator={<span className="mx-1"></span>}
+                  renderInput={(props) => (
+                    <input
+                      {...props}
+                      className="border p-2 text-center w-10 h-12"
+                    />
+                  )}
+                />
+                <DialogActions>
+                  <Button onClick={() => setOpenOtpDialog(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" color="primary">
+                    Submit
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
+          </Formik>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={openPasswordDialog}
+        onClose={() => setOpenPasswordDialog(false)}
+      >
+        <DialogTitle>Reset Password</DialogTitle>
+        <DialogContent>
+          <Formik
+            initialValues={updatePasswordValues}
+            validationSchema={validationUpdatePasswordSchema}
+            onSubmit={handleUpdatePassswordSubmit}
+          >
+            {() => (
+              <Form>
+                <Field
+                  type="password"
+                  name="newPassword"
+                  placeholder="New password"
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+                <ErrorMessage
+                  name="newPassword"
+                  component="div"
+                  className="text-red-600"
+                />
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  className="w-full p-2 border border-gray-300 rounded mt-2"
+                />
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="div"
+                  className="text-red-600"
+                />
+                <DialogActions>
+                  <Button onClick={() => setOpenPasswordDialog(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" color="primary">
+                    Submit
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
+          </Formik>
+        </DialogContent>
       </Dialog>
     </div>
   );
