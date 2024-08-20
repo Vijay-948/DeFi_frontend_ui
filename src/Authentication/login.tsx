@@ -54,7 +54,7 @@ const LoginPage = () => {
   });
 
   const validationOtpSchema = Yup.object({
-    otp: Yup.string().required("OTP is required"),
+    otp: Yup.string().required("OTP is required").length(6, "OTP is required"),
   });
 
   const validationUpdatePasswordSchema = Yup.object({
@@ -236,7 +236,7 @@ const LoginPage = () => {
               <Form>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <OtpInput
-                    value={otp}
+                    value={OtpDialogValues.otp}
                     inputType="text"
                     inputStyle={{
                       width: "5.2vh",
@@ -244,6 +244,7 @@ const LoginPage = () => {
                       margin: "5px",
                       border: "solid gray 1px",
                       textAlign: "center",
+                      color: "black",
                     }}
                     onChange={setOtp}
                     numInputs={6}
@@ -256,18 +257,22 @@ const LoginPage = () => {
                     )}
                   />
                 </div>
-                {/* <div style={{ display: "flex", justifyContent: "center" }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <ErrorMessage
                     name="otp"
-                    component="span"
+                    component="div"
                     className="text-red-600 text-bold mt-2 font-semibold"
                   />
-                </div> */}
+                </div>
                 <DialogActions>
                   <Button onClick={() => setOpenOtpDialog(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit" color="primary" onClick={() => setOpenPasswordDialog(true)}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    // onClick={() => setOpenPasswordDialog(true)}
+                  >
                     Submit
                   </Button>
                 </DialogActions>
@@ -281,7 +286,7 @@ const LoginPage = () => {
         onClose={() => setOpenPasswordDialog(false)}
       >
         <DialogTitle>Reset Password</DialogTitle>
-        <DialogContent>
+        <DialogContent className="relative w-[520px] bg-opacity-75 border-2 border-white border-opacity-0 backdrop-blur-3xl shadow-lg text-gray-900 rounded-lg p-10 z-10">
           <Formik
             initialValues={updatePasswordValues}
             validationSchema={validationUpdatePasswordSchema}
